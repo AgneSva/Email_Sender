@@ -8,8 +8,8 @@ from email.mime.multipart import MIMEMultipart
 
 #---------FUNCTIONS-------
 #login info to gmail 
-username=''
-password=''
+#username=''
+#password=''
 #subject=''
 #sender=''
 #reciever=''
@@ -26,22 +26,30 @@ def clear():
      
      
 #takes email text,email subject, sender and reciever
-def send(text='teeext', subject='this is my email subject',sender='', reciever=None, html=None):
+def send():
+    
+    text=TxtEntry.get() 
+    subject=SubEntry.get() 
+    sender=UsernameEntry.get() 
+    reciever=RecEntry.get()  
+    html=None
+    password=PassEntry.get()
+    
     # "isinstance" to check if it is a given type or no (if reciever is a list)
     #if it is a list-all good; otherwise run an error
-    assert isinstance(reciever,list)
+    #assert isinstance(reciever,list)
+
 
     msg=MIMEMultipart('alternative')
-    
     msg['From']= sender
     #we need to separate emails with comma-so using .join
-    msg['To']= ",".join(reciever)
+    #msg['To']= ",".join(reciever)
     msg['Subject']=subject
     
 
     txt_part=MIMEText(text,'plain')
     msg.attach(txt_part)
-
+    msg_str=msg.as_string()
     #if there is html in the email,send it as well:
     if html != None:
       html_part=MIMEText(html,'html')
@@ -49,15 +57,18 @@ def send(text='teeext', subject='this is my email subject',sender='', reciever=N
       msg_str=msg.as_string()
 
 
+    
 #log in to smtp server. open it
     server=smtplib.SMTP(host='smtp.gmail.com',port=587)
 #configuration
     server.ehlo()
     #for secure connection
     server.starttls()
-    server.login(username,password)
+    server.login(sender,password)
     server.sendmail(sender,reciever,msg_str)
     server.quit()
+    clear()
+    
 
 
 #------------GUI--------
@@ -80,19 +91,19 @@ Not= Label(master,text = "",font=("Arial",10)).grid(row = 7, sticky =S,padx=5)
 
 
 #Entries
-UsernameEntry=Entry(master, textvariable=username)
+UsernameEntry=Entry(master)
 UsernameEntry.grid(row=2,column=1)
 
-PassEntry=Entry(master, textvariable=password)
+PassEntry=Entry(master)
 PassEntry.grid(row=3,column=1)
 
-RecEntry=Entry(master, textvariable=reciever)
+RecEntry=Entry(master)
 RecEntry.grid(row=4,column=1)
 
-SubEntry=Entry(master, textvariable=subject)
+SubEntry=Entry(master)
 SubEntry.grid(row=5,column=1)
 
-TxtEntry=Entry(master, textvariable=text)
+TxtEntry=Entry(master)
 TxtEntry.grid(row=6,column=1)
 
 #Button 
