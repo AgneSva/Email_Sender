@@ -28,7 +28,7 @@ def clear():
 #takes email text,email subject, sender and reciever
 def send():
     
-    text=TxtEntry.get() 
+    text=TxtEntry.get("1.0",END) 
     subject=SubEntry.get() 
     sender=UsernameEntry.get() 
     reciever=RecEntry.get()  
@@ -85,7 +85,7 @@ Label(master,text = "Email",font=("Arial",15)).grid(row = 2, sticky = W,padx=5)
 Label(master,text = "Password",font=("Arial",15)).grid(row = 3, sticky = W,padx=5)
 Label(master,text = "To",font=("Arial",15)).grid(row = 4, sticky = W,padx=5)
 Label(master,text = "Subject",font=("Arial",15)).grid(row = 5, sticky = W,padx=5)
-Label(master,text = "Body",font=("Arial",15)).grid(row = 6, sticky = W,padx=5)
+Label(master,text = "Message",font=("Arial",15)).grid(row = 6, sticky = W,padx=5)
 #for failed messages/to show errors:
 Not= Label(master,text = "",font=("Arial",10)).grid(row = 7, sticky =S,padx=5)
 
@@ -94,7 +94,7 @@ Not= Label(master,text = "",font=("Arial",10)).grid(row = 7, sticky =S,padx=5)
 UsernameEntry=Entry(master)
 UsernameEntry.grid(row=2,column=1)
 
-PassEntry=Entry(master)
+PassEntry=Entry(master,show="*")
 PassEntry.grid(row=3,column=1)
 
 RecEntry=Entry(master)
@@ -103,11 +103,12 @@ RecEntry.grid(row=4,column=1)
 SubEntry=Entry(master)
 SubEntry.grid(row=5,column=1)
 
-TxtEntry=Entry(master)
+TxtEntry=Text(master,width=26, height=8)
 TxtEntry.grid(row=6,column=1)
 
 #Button 
-Button(master,text="SEND",command=send).grid(row=7,column=0,sticky=W, pady=5,padx=15)
-Button(master,text="CLEAR",command=clear).grid(row=7,column=1,sticky=W, pady=5,padx=5)
-
+Button(master,text="SEND",command=send).grid(row=7,column=1,sticky=W)
+Button(master,text="CLEAR",command=clear).grid(row=7,column=1,sticky=E)
+#size of the page
+master.geometry('300x350')
 master.mainloop()
